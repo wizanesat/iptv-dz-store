@@ -2,9 +2,31 @@ import { useEffect, useState } from 'react';
 import { db } from './firebase';
 import { collection, onSnapshot, query, orderBy, doc, deleteDoc } from 'firebase/firestore';
 
+import { useNavigate } from 'react-router-dom';
+import { auth } from './firebase';
+import { onAuthStateChanged, signOut } from 'firebase/auth';
+
 function Admin() {
   const [orders, setOrders] = useState([]);
 
+
+const navigate = useNavigate();
+
+useEffect(() => {
+  const unsubscribe = onAuthStateChanged(auth, (user) => {
+    if (!user) {
+      navigate('/login'); // إذا لم يسجل دخوله، ارسله لصفحة اللوجن
+    }
+  });
+  return () => unsubscribe();
+}, []);
+
+const handleLogout = () => {
+  signOut(auth).then(() => navigate('/login'));
+};
+
+// أضف زر خروج (Logout) في واجهة الـ Admin
+// <button onClick={handleLogout} className="...">تسجيل الخروج</button>
   useEffect(() => {
     // جلب البيانات لحظياً من Firebase
     const q = query(collection(db, "orders"), orderBy("createdAt", "desc"));
