@@ -1,6 +1,9 @@
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 import { getAuth } from "firebase/auth"; // سطر جديد
+import { getStorage } from "firebase/storage"; // سطر جديد
+
+
 const firebaseConfig = {
   apiKey: "AIzaSyAB49VQUvOjjiFnJa5AvxcvNCwXEy9RdL0",
   authDomain: "iptv-dz-store.firebaseapp.com",
@@ -14,3 +17,4 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app);
 export const auth = getAuth(app); // سطر جديد
+export const storage = getStorage(app); // سطر جديد
